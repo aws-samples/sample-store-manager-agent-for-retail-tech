@@ -1,0 +1,12 @@
+column_name,data_type,description,reference,notes,constraints
+id,string,UUID形式の一意識別子,,,N
+summary_id,string,回答サマリテーブルのID,,,N
+survey_id,string,サーベイID,,,N
+str_cd,string,店舗コード,,,N
+user_cd,string,ユーザーコード,,,N
+question_text,string,質問内容,,,N
+question_type,string,質問タイプ (rating choice text),,,N
+answer_value,string,回答値,,,N
+options,string,選択肢（choice型の場合）,,,Y
+created_at,timestamp,作成日時,,,N
+updated_at,timestamp,更新日時,,,N

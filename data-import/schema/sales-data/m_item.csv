@@ -1,0 +1,8 @@
+﻿column_name,data_type,description,reference,notes,constraints
+sku,string,SKU,,,
+product_code,string,品番/商品コード,,,
+product_name,string,品番名/商品名,,,
+br_cd,string,ブランドコード,,,
+br_name,string,ブランド名,,,
+item_cd,string,アイテムコード,,,
+item_name,string,アイテム名,,,

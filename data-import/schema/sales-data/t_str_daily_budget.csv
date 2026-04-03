@@ -1,0 +1,5 @@
+﻿column_name,data_type,description,reference,notes,constraints
+str_cd,string,店舗コード,,,
+date,timestamp,年月日,,,
+br_cd,string,ブランドコード,,,
+sales_budget,double,予算金額,,,

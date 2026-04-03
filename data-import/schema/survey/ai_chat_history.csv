@@ -1,0 +1,8 @@
+column_name,data_type,description,reference,notes,constraints
+id,string,UUID形式の一意識別子,,,N
+summary_id,string,回答サマリテーブルのID,,,N
+survey_id,string,日次サーベイ回答ID,,,N
+agentcore_memory_id,string,AgentCore Memory リソースID,,,N
+session_id,string,会話セッションID,,,N
+actor_id,string,ユーザー/アクターID,,,N
+created_at,timestamp,作成日時,,,N

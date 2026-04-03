@@ -1,0 +1,18 @@
+[project]
+name = "test"
+version = "0.1.0"
+description = "Test suite for Store Daily QA System API"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.42.24",
+    "fastapi>=0.104.0",
+    "httpx>=0.25.0",
+    "pytest>=7.4.0",
+    "pytest-asyncio>=0.21.0",
+    "pydantic>=2.0.0",
+    "pyyaml>=6.0.0",
+    "requests>=2.32.5",
+    "strands-agents>=1.23.0",
+    "pandas>=3.0.0",
+]

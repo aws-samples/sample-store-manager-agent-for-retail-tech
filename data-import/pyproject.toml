@@ -1,0 +1,9 @@
+[project]
+name = "data-import"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "boto3>=1.42.10",
+    "pandas>=2.0.0",
+]

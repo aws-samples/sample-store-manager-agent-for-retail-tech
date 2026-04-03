@@ -1,0 +1,13 @@
+﻿column_name,data_type,description,reference,notes,constraints
+terminal_no,string,ターミナル番号,,,N
+receipt_no,string,伝票番号/レシート番号,,,N
+str_cd,string,店舗コード,,,N
+sales_date_time,timestamp,伝票日時,,,N
+sku,string,SKU,,,N
+br_cd,string,ブランドコード,,,N
+item_cd,string,アイテムコード,,,N
+is_sale,string,セールフラグ,,,
+sales_quantity,bigint,売上数量,,,
+sales_cost,double,売上原価,,,
+sales_amount,double,売上金額,,,
+customer_count,bigint,買上客数,,,

@@ -1,0 +1,14 @@
+column_name,data_type,description,reference,notes,constraints
+id,string,UUID形式の一意識別子,,,N
+user_cd,string,ユーザーコード=Cognito User Pool の sub,,,N
+str_cd,string,店舗コード,,,N
+report_date,timestamp,レポート対象日,,,N
+status,string,セッション状態 (in_progress completed cancelled),,,N
+report_text,string,レポートテキスト,,,Y
+agentcore_memory_id,string,AgentCore Memory リソースID,,,Y
+session_id,string,会話セッションID,,,Y
+actor_id,string,ユーザー/アクターID,,,Y
+user_feedback,string,AIフィードバックに対するユーザーの感想,,,Y
+created_at,timestamp,作成日時,,,N
+updated_at,timestamp,更新日時,,,N
+supplement_comment,string,補足コメント,,,Y

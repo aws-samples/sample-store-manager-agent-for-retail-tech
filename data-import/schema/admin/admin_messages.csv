@@ -1,0 +1,8 @@
+column_name,data_type,description,reference,notes,constraints
+id,string,UUID形式の一意識別子,,,N
+title,string,メッセージタイトル,,,N
+content,string,メッセージ内容,,,N
+is_active,boolean,アクティブ状態,,,N
+created_by,string,作成者のCognito sub,,,N
+created_at,timestamp,作成日時,,,N
+updated_at,timestamp,更新日時,,,N

@@ -1,0 +1,2228 @@
+{
+  "openapi": "3.1.0",
+  "info": {
+    "title": "Store Daily QA System API",
+    "description": "API for store staff daily QA system",
+    "version": "1.0.0"
+  },
+  "paths": {
+    "/api/admin/survey/questions": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get Questions",
+        "description": "定型質問一覧取得",
+        "operationId": "get_questions_api_admin_survey_questions_get",
+        "parameters": [
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "アクティブな質問のみ取得",
+              "default": true,
+              "title": "Is Active"
+            },
+            "description": "アクティブな質問のみ取得"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "取得件数上限",
+              "default": 30,
+              "title": "Limit"
+            },
+            "description": "取得件数上限"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Questions retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "post": {
+        "tags": ["admin"],
+        "summary": "Create Question",
+        "description": "定型質問作成",
+        "operationId": "create_question_api_admin_survey_questions_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QuestionCreateRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Question created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/admin/survey/questions/{admin_survey_id}": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get Question",
+        "description": "定型質問詳細取得",
+        "operationId": "get_question_api_admin_survey_questions__admin_survey_id__get",
+        "parameters": [
+          {
+            "name": "admin_survey_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Survey Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/QuestionResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "Question not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "put": {
+        "tags": ["admin"],
+        "summary": "Update Question",
+        "description": "定型質問更新",
+        "operationId": "update_question_api_admin_survey_questions__admin_survey_id__put",
+        "parameters": [
+          {
+            "name": "admin_survey_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Survey Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/QuestionUpdateRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Question updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Question not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "delete": {
+        "tags": ["admin"],
+        "summary": "Delete Question",
+        "description": "定型質問削除",
+        "operationId": "delete_question_api_admin_survey_questions__admin_survey_id__delete",
+        "parameters": [
+          {
+            "name": "admin_survey_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Survey Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Question deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOperationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Question not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/admin/messages": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get Messages",
+        "description": "お知らせ一覧取得",
+        "operationId": "get_messages_api_admin_messages_get",
+        "parameters": [
+          {
+            "name": "is_active",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "boolean",
+              "description": "アクティブなお知らせのみ取得",
+              "default": true,
+              "title": "Is Active"
+            },
+            "description": "アクティブなお知らせのみ取得"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 200,
+              "minimum": 1,
+              "description": "取得件数上限",
+              "default": 30,
+              "title": "Limit"
+            },
+            "description": "取得件数上限"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Messages retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MessageListResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "post": {
+        "tags": ["admin"],
+        "summary": "Create Message",
+        "description": "お知らせ作成",
+        "operationId": "create_message_api_admin_messages_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MessageCreateRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message created successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/MessageOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/admin/messages/{admin_messages_id}": {
+      "get": {
+        "tags": ["admin"],
+        "summary": "Get Message",
+        "description": "お知らせ詳細取得",
+        "operationId": "get_message_api_admin_messages__admin_messages_id__get",
+        "parameters": [
+          {
+            "name": "admin_messages_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Messages Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/MessageResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "put": {
+        "tags": ["admin"],
+        "summary": "Update Message",
+        "description": "お知らせ更新",
+        "operationId": "update_message_api_admin_messages__admin_messages_id__put",
+        "parameters": [
+          {
+            "name": "admin_messages_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Messages Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/MessageUpdateRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Message updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "delete": {
+        "tags": ["admin"],
+        "summary": "Delete Message",
+        "description": "お知らせ削除",
+        "operationId": "delete_message_api_admin_messages__admin_messages_id__delete",
+        "parameters": [
+          {
+            "name": "admin_messages_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Admin Messages Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Message deleted successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AdminOperationResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Message not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/survey/answers": {
+      "post": {
+        "tags": ["survey"],
+        "summary": "Save Survey Answer",
+        "description": "サーベイ回答保存",
+        "operationId": "save_survey_answer_api_survey_answers_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/SurveyAnswerRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Survey answer saved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "get": {
+        "tags": ["survey"],
+        "summary": "Get Survey Answers",
+        "description": "サーベイ回答履歴取得",
+        "operationId": "get_survey_answers_api_survey_answers_get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "ページ番号",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "ページ番号"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "1ページあたりの件数",
+              "default": 30,
+              "title": "Limit"
+            },
+            "description": "1ページあたりの件数"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Survey answers retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerListResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/survey/answers/{survey_id}": {
+      "put": {
+        "tags": ["survey"],
+        "summary": "Update Survey Answer",
+        "description": "サーベイ回答更新",
+        "operationId": "update_survey_answer_api_survey_answers__survey_id__put",
+        "parameters": [
+          {
+            "name": "survey_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Survey Id" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/SurveyAnswerUpdateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Survey answer updated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyOperationResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Survey not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "get": {
+        "tags": ["survey"],
+        "summary": "Get Survey Answer",
+        "description": "サーベイ回答詳細取得",
+        "operationId": "get_survey_answer_api_survey_answers__survey_id__get",
+        "parameters": [
+          {
+            "name": "survey_id",
+            "in": "path",
+            "required": true,
+            "schema": { "type": "string", "title": "Survey Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Survey answer retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SurveyAnswerResponse"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Survey not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/chat/message": {
+      "post": {
+        "tags": ["chat"],
+        "summary": "Send Chat Message",
+        "description": "AIチャットメッセージ送信",
+        "operationId": "send_chat_message_api_chat_message_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/ChatMessageRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat message sent successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChatMessageResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/chat/session/save": {
+      "post": {
+        "tags": ["chat"],
+        "summary": "Save Chat Session",
+        "description": "チャットセッション保存",
+        "operationId": "save_chat_session_api_chat_session_save_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ChatSessionSaveRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Chat session saved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ChatSessionSaveResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/chat/session": {
+      "get": {
+        "tags": ["chat"],
+        "summary": "Get Chat Session By Survey",
+        "description": "サーベイIDからチャットセッション取得",
+        "operationId": "get_chat_session_by_survey_api_chat_session_get",
+        "parameters": [
+          {
+            "name": "survey_id",
+            "in": "query",
+            "required": true,
+            "schema": { "type": "string", "title": "Survey Id" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Chat session retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/ChatSessionResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Chat session not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/insights/daily": {
+      "get": {
+        "tags": ["insights"],
+        "summary": "Get Daily Insights",
+        "description": "日次Insights取得\n\n指定された条件に一致する日次Insightsを取得します。",
+        "operationId": "get_daily_insights_api_insights_daily_get",
+        "parameters": [
+          {
+            "name": "report_date",
+            "in": "query",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "date",
+              "description": "レポート対象日",
+              "title": "Report Date"
+            },
+            "description": "レポート対象日"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Daily insights retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InsightResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Insights not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/insights/daily/generate": {
+      "post": {
+        "tags": ["insights"],
+        "summary": "Generate Daily Insights",
+        "description": "日次Insights生成\n\n指定された条件で新しい日次Insightsを生成します。",
+        "operationId": "generate_daily_insights_api_insights_daily_generate_post",
+        "parameters": [
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsightGenerateRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Daily insights generated successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsightGenerateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/insights/daily/{insight_id}": {
+      "put": {
+        "tags": ["insights"],
+        "summary": "Save Daily Insights",
+        "description": "日次Insights保存・更新\n\n指定されたInsightsの内容を保存・更新します。",
+        "operationId": "save_daily_insights_api_insights_daily__insight_id__put",
+        "parameters": [
+          {
+            "name": "insight_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Insights ID",
+              "title": "Insight Id"
+            },
+            "description": "Insights ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": { "$ref": "#/components/schemas/InsightSaveRequest" }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Daily insights saved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsightUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Insights not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      },
+      "get": {
+        "tags": ["insights"],
+        "summary": "Get Insight Detail",
+        "description": "Insights詳細取得\n\n指定されたIDのInsights詳細情報を取得します。",
+        "operationId": "get_insight_detail_api_insights_daily__insight_id__get",
+        "parameters": [
+          {
+            "name": "insight_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Insights ID",
+              "title": "Insight Id"
+            },
+            "description": "Insights ID"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Insight detail retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/InsightResponse" }
+              }
+            }
+          },
+          "404": {
+            "description": "Insights not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/insights/daily/{insight_id}/feedback": {
+      "put": {
+        "tags": ["insights"],
+        "summary": "Save Feedback",
+        "description": "フィードバック保存\n\n指定されたInsightsにフィードバックを保存します。",
+        "operationId": "save_feedback_api_insights_daily__insight_id__feedback_put",
+        "parameters": [
+          {
+            "name": "insight_id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "description": "Insights ID",
+              "title": "Insight Id"
+            },
+            "description": "Insights ID"
+          }
+        ],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/InsightFeedbackRequest"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Feedback saved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsightUpdateResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "404": {
+            "description": "Insights not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/api/insights/daily/history": {
+      "get": {
+        "tags": ["insights"],
+        "summary": "Get Insights History",
+        "description": "Insights履歴取得\n\nInsightsの履歴を取得します。",
+        "operationId": "get_insights_history_api_insights_daily_history_get",
+        "parameters": [
+          {
+            "name": "page",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "minimum": 1,
+              "description": "ページ番号",
+              "default": 1,
+              "title": "Page"
+            },
+            "description": "ページ番号"
+          },
+          {
+            "name": "limit",
+            "in": "query",
+            "required": false,
+            "schema": {
+              "type": "integer",
+              "maximum": 100,
+              "minimum": 1,
+              "description": "1ページあたりの件数",
+              "default": 30,
+              "title": "Limit"
+            },
+            "description": "1ページあたりの件数"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Insights history retrieved successfully",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/InsightHistoryResponse"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "422": { "description": "Validation error" }
+        }
+      }
+    },
+    "/": {
+      "get": {
+        "summary": "Root",
+        "description": "Health check endpoint",
+        "operationId": "root__get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/health": {
+      "get": {
+        "summary": "Health Check",
+        "description": "Health check endpoint",
+        "operationId": "health_check_health_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    },
+    "/api/info": {
+      "get": {
+        "summary": "Api Info",
+        "description": "API情報エンドポイント",
+        "operationId": "api_info_api_info_get",
+        "responses": {
+          "200": {
+            "description": "Successful Response",
+            "content": { "application/json": { "schema": {} } }
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "APIError": {
+        "properties": {
+          "error": { "$ref": "#/components/schemas/ErrorResponse" }
+        },
+        "type": "object",
+        "required": ["error"],
+        "title": "APIError",
+        "description": "API エラーレスポンス"
+      },
+      "AdminOperationResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "操作結果メッセージ"
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "AdminOperationResponse",
+        "description": "管理者操作レスポンス"
+      },
+      "AgentType": {
+        "type": "string",
+        "enum": ["hearing", "coaching", "analysis", "daily_summary"],
+        "title": "AgentType",
+        "description": "AIエージェントタイプ"
+      },
+      "AnswerData": {
+        "properties": {
+          "question_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Question Id",
+            "description": "質問ID"
+          },
+          "question_text": {
+            "type": "string",
+            "title": "Question Text",
+            "description": "質問内容"
+          },
+          "question_type": { "$ref": "#/components/schemas/QuestionType" },
+          "answer_value": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Answer Value",
+            "description": "回答値"
+          },
+          "options": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "Options",
+            "description": "選択肢（choice/ratingタイプの場合）"
+          }
+        },
+        "type": "object",
+        "required": ["question_id", "question_text", "question_type"],
+        "title": "AnswerData",
+        "description": "回答データ"
+      },
+      "ChatMessageRequest": {
+        "properties": {
+          "agent_type": { "$ref": "#/components/schemas/AgentType" },
+          "prompt": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Prompt",
+            "description": "プロンプト"
+          },
+          "session_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Session Id",
+            "description": "セッションID"
+          },
+          "survey_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Survey Id",
+            "description": "サーベイ回答ID"
+          }
+        },
+        "type": "object",
+        "required": ["agent_type", "prompt", "session_id", "survey_id"],
+        "title": "ChatMessageRequest",
+        "description": "AIチャットメッセージリクエスト"
+      },
+      "ChatMessageResponse": {
+        "properties": {
+          "response": {
+            "type": "string",
+            "title": "Response",
+            "description": "AI応答"
+          },
+          "agent_type": { "$ref": "#/components/schemas/AgentType" },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "セッションID"
+          },
+          "actor_id": {
+            "type": "string",
+            "title": "Actor Id",
+            "description": "アクターID"
+          }
+        },
+        "type": "object",
+        "required": ["response", "agent_type", "session_id", "actor_id"],
+        "title": "ChatMessageResponse",
+        "description": "AIチャットメッセージレスポンス"
+      },
+      "ChatSessionResponse": {
+        "properties": {
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "セッションID"
+          },
+          "survey_id": {
+            "type": "string",
+            "title": "Survey Id",
+            "description": "サーベイID"
+          },
+          "user_cd": {
+            "type": "string",
+            "title": "User Cd",
+            "description": "ユーザーコード"
+          },
+          "str_cd": {
+            "type": "string",
+            "title": "Str Cd",
+            "description": "店舗コード"
+          },
+          "messages": {
+            "items": { "$ref": "#/components/schemas/MessageHistoryItem" },
+            "type": "array",
+            "title": "Messages",
+            "description": "会話履歴"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "session_id",
+          "survey_id",
+          "user_cd",
+          "str_cd",
+          "messages",
+          "created_at"
+        ],
+        "title": "ChatSessionResponse",
+        "description": "チャットセッション詳細レスポンス"
+      },
+      "ChatSessionSaveRequest": {
+        "properties": {
+          "survey_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Survey Id",
+            "description": "サーベイID"
+          },
+          "session_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Session Id",
+            "description": "セッションID"
+          }
+        },
+        "type": "object",
+        "required": ["survey_id", "session_id"],
+        "title": "ChatSessionSaveRequest",
+        "description": "チャットセッション保存リクエスト"
+      },
+      "ChatSessionSaveResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "保存結果メッセージ"
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "ChatSessionSaveResponse",
+        "description": "チャットセッション保存レスポンス"
+      },
+      "ErrorResponse": {
+        "properties": {
+          "code": {
+            "type": "string",
+            "title": "Code",
+            "description": "エラーコード"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "エラーメッセージ"
+          },
+          "details": {
+            "anyOf": [{}, { "type": "null" }],
+            "title": "Details",
+            "description": "エラー詳細"
+          }
+        },
+        "type": "object",
+        "required": ["code", "message"],
+        "title": "ErrorResponse",
+        "description": "エラーレスポンス"
+      },
+      "InsightFeedbackRequest": {
+        "properties": {
+          "user_feedback": {
+            "type": "string",
+            "title": "User Feedback",
+            "description": "ユーザーフィードバック"
+          }
+        },
+        "type": "object",
+        "required": ["user_feedback"],
+        "title": "InsightFeedbackRequest",
+        "description": "フィードバック保存リクエスト"
+      },
+      "InsightGenerateRequest": {
+        "properties": {
+          "agent_type": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Agent Type",
+            "description": "エージェントタイプ",
+            "default": "daily_summary"
+          },
+          "prompt": {
+            "type": "string",
+            "minLength": 1,
+            "title": "Prompt",
+            "description": "生成指示"
+          },
+          "session_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Session Id",
+            "description": "セッションID"
+          },
+          "report_date": {
+            "type": "string",
+            "format": "date",
+            "title": "Report Date",
+            "description": "レポート対象日"
+          }
+        },
+        "type": "object",
+        "required": ["agent_type", "prompt", "session_id", "report_date"],
+        "title": "InsightGenerateRequest",
+        "description": "日次Insights生成リクエスト"
+      },
+      "InsightGenerateResponse": {
+        "properties": {
+          "response": {
+            "type": "string",
+            "title": "Response",
+            "description": "生成されたInsightsテキスト"
+          },
+          "agent_type": {
+            "type": "string",
+            "title": "Agent Type",
+            "description": "エージェントタイプ"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "セッションID"
+          },
+          "actor_id": {
+            "type": "string",
+            "title": "Actor Id",
+            "description": "アクターID"
+          },
+          "summary_id": {
+            "type": "string",
+            "title": "Summary Id",
+            "description": "サマリーID"
+          }
+        },
+        "type": "object",
+        "required": [
+          "response",
+          "agent_type",
+          "session_id",
+          "actor_id",
+          "summary_id"
+        ],
+        "title": "InsightGenerateResponse",
+        "description": "Insights生成レスポンス"
+      },
+      "InsightHistoryItem": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Insights ID"
+          },
+          "report_date": {
+            "type": "string",
+            "title": "Report Date",
+            "description": "レポート対象日"
+          },
+          "user_cd": {
+            "type": "string",
+            "title": "User Cd",
+            "description": "ユーザーコード"
+          },
+          "str_cd": {
+            "type": "string",
+            "title": "Str Cd",
+            "description": "店舗コード"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "report_date",
+          "user_cd",
+          "str_cd",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "InsightHistoryItem",
+        "description": "Insights履歴項目"
+      },
+      "InsightHistoryResponse": {
+        "properties": {
+          "insights": {
+            "items": { "$ref": "#/components/schemas/InsightHistoryItem" },
+            "type": "array",
+            "title": "Insights",
+            "description": "Insights一覧"
+          },
+          "total_count": {
+            "type": "integer",
+            "title": "Total Count",
+            "description": "総件数"
+          },
+          "current_page": {
+            "type": "integer",
+            "title": "Current Page",
+            "description": "現在のページ"
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages",
+            "description": "総ページ数"
+          }
+        },
+        "type": "object",
+        "required": ["insights", "total_count", "current_page", "total_pages"],
+        "title": "InsightHistoryResponse",
+        "description": "Insights履歴レスポンス"
+      },
+      "InsightResponse": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "title": "Id",
+            "description": "Insights ID"
+          },
+          "user_cd": {
+            "type": "string",
+            "title": "User Cd",
+            "description": "ユーザーコード"
+          },
+          "str_cd": {
+            "type": "string",
+            "title": "Str Cd",
+            "description": "店舗コード"
+          },
+          "report_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Report Date",
+            "description": "レポート対象日"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "ステータス"
+          },
+          "report_text": {
+            "type": "string",
+            "title": "Report Text",
+            "description": "レポートテキスト"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "会話セッションID"
+          },
+          "actor_id": {
+            "type": "string",
+            "title": "Actor Id",
+            "description": "ユーザー/アクターID"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          },
+          "user_feedback": {
+            "anyOf": [{ "type": "string" }, { "type": "null" }],
+            "title": "User Feedback",
+            "description": "ユーザーフィードバック"
+          }
+        },
+        "type": "object",
+        "required": [
+          "id",
+          "user_cd",
+          "str_cd",
+          "report_date",
+          "status",
+          "report_text",
+          "session_id",
+          "actor_id",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "InsightResponse",
+        "description": "日次Insightsレスポンス"
+      },
+      "InsightSaveRequest": {
+        "properties": {
+          "report_date": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Report Date",
+            "description": "レポート対象日"
+          },
+          "status": {
+            "type": "string",
+            "title": "Status",
+            "description": "セッション状態"
+          },
+          "report_text": {
+            "type": "string",
+            "title": "Report Text",
+            "description": "レポートテキスト"
+          },
+          "session_id": {
+            "type": "string",
+            "title": "Session Id",
+            "description": "会話セッションID"
+          }
+        },
+        "type": "object",
+        "required": ["report_date", "status", "report_text", "session_id"],
+        "title": "InsightSaveRequest",
+        "description": "日次Insights保存リクエスト"
+      },
+      "InsightUpdateResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "更新結果メッセージ"
+          }
+        },
+        "type": "object",
+        "required": ["message"],
+        "title": "InsightUpdateResponse",
+        "description": "Insights更新レスポンス"
+      },
+      "MessageCreateRequest": {
+        "properties": {
+          "title": {
+            "type": "string",
+            "maxLength": 200,
+            "minLength": 1,
+            "title": "Title",
+            "description": "タイトル"
+          },
+          "content": {
+            "type": "string",
+            "maxLength": 2000,
+            "minLength": 1,
+            "title": "Content",
+            "description": "内容"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "アクティブ状態",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": ["title", "content"],
+        "title": "MessageCreateRequest",
+        "description": "お知らせ作成リクエスト"
+      },
+      "MessageHistoryItem": {
+        "properties": {
+          "role": {
+            "type": "string",
+            "title": "Role",
+            "description": "メッセージの役割 (user/assistant)"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "メッセージ内容"
+          },
+          "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Timestamp",
+            "description": "メッセージ送信時刻"
+          },
+          "agent_type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/AgentType" },
+              { "type": "null" }
+            ],
+            "description": "AIエージェントタイプ（assistantの場合）"
+          }
+        },
+        "type": "object",
+        "required": ["role", "content", "timestamp"],
+        "title": "MessageHistoryItem",
+        "description": "メッセージ履歴項目"
+      },
+      "MessageListResponse": {
+        "properties": {
+          "messages": {
+            "items": { "$ref": "#/components/schemas/MessageResponse" },
+            "type": "array",
+            "title": "Messages",
+            "description": "お知らせリスト"
+          }
+        },
+        "type": "object",
+        "required": ["messages"],
+        "title": "MessageListResponse",
+        "description": "お知らせ一覧レスポンス"
+      },
+      "MessageOperationResponse": {
+        "properties": {
+          "admin_messages_id": {
+            "type": "string",
+            "title": "Admin Messages Id",
+            "description": "作成/更新されたメッセージID"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "操作結果メッセージ"
+          }
+        },
+        "type": "object",
+        "required": ["admin_messages_id", "message"],
+        "title": "MessageOperationResponse",
+        "description": "メッセージ操作レスポンス"
+      },
+      "MessageResponse": {
+        "properties": {
+          "admin_messages_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Admin Messages Id",
+            "description": "お知らせID"
+          },
+          "title": {
+            "type": "string",
+            "title": "Title",
+            "description": "タイトル"
+          },
+          "content": {
+            "type": "string",
+            "title": "Content",
+            "description": "内容"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "アクティブ状態"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "admin_messages_id",
+          "title",
+          "content",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "MessageResponse",
+        "description": "お知らせレスポンス"
+      },
+      "MessageUpdateRequest": {
+        "properties": {
+          "title": {
+            "anyOf": [
+              { "type": "string", "maxLength": 200 },
+              { "type": "null" }
+            ],
+            "title": "Title",
+            "description": "タイトル"
+          },
+          "content": {
+            "anyOf": [
+              { "type": "string", "maxLength": 2000 },
+              { "type": "null" }
+            ],
+            "title": "Content",
+            "description": "内容"
+          },
+          "is_active": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Is Active",
+            "description": "アクティブ状態"
+          }
+        },
+        "type": "object",
+        "title": "MessageUpdateRequest",
+        "description": "お知らせ更新リクエスト"
+      },
+      "QuestionCreateRequest": {
+        "properties": {
+          "question_text": {
+            "type": "string",
+            "maxLength": 500,
+            "minLength": 1,
+            "title": "Question Text",
+            "description": "質問内容"
+          },
+          "question_type": { "$ref": "#/components/schemas/QuestionType" },
+          "options": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Options",
+            "description": "選択肢(choiceタイプの場合)"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "アクティブ状態",
+            "default": true
+          }
+        },
+        "type": "object",
+        "required": ["question_text", "question_type"],
+        "title": "QuestionCreateRequest",
+        "description": "定型質問作成リクエスト"
+      },
+      "QuestionListResponse": {
+        "properties": {
+          "questions": {
+            "items": { "$ref": "#/components/schemas/QuestionResponse" },
+            "type": "array",
+            "title": "Questions",
+            "description": "質問リスト"
+          }
+        },
+        "type": "object",
+        "required": ["questions"],
+        "title": "QuestionListResponse",
+        "description": "定型質問一覧レスポンス"
+      },
+      "QuestionOperationResponse": {
+        "properties": {
+          "admin_survey_id": {
+            "type": "string",
+            "title": "Admin Survey Id",
+            "description": "作成/更新された質問ID"
+          },
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "操作結果メッセージ"
+          }
+        },
+        "type": "object",
+        "required": ["admin_survey_id", "message"],
+        "title": "QuestionOperationResponse",
+        "description": "質問操作レスポンス"
+      },
+      "QuestionResponse": {
+        "properties": {
+          "admin_survey_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Admin Survey Id",
+            "description": "質問ID"
+          },
+          "question_text": {
+            "type": "string",
+            "title": "Question Text",
+            "description": "質問内容"
+          },
+          "question_type": { "$ref": "#/components/schemas/QuestionType" },
+          "options": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Options",
+            "description": "選択肢"
+          },
+          "is_active": {
+            "type": "boolean",
+            "title": "Is Active",
+            "description": "アクティブ状態"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "admin_survey_id",
+          "question_text",
+          "question_type",
+          "is_active",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "QuestionResponse",
+        "description": "定型質問レスポンス"
+      },
+      "QuestionType": {
+        "type": "string",
+        "enum": ["text", "choice", "rating", "number"],
+        "title": "QuestionType",
+        "description": "質問タイプ"
+      },
+      "QuestionUpdateRequest": {
+        "properties": {
+          "question_text": {
+            "anyOf": [
+              { "type": "string", "maxLength": 500 },
+              { "type": "null" }
+            ],
+            "title": "Question Text",
+            "description": "質問内容"
+          },
+          "question_type": {
+            "anyOf": [
+              { "$ref": "#/components/schemas/QuestionType" },
+              { "type": "null" }
+            ],
+            "description": "質問タイプ"
+          },
+          "options": {
+            "anyOf": [
+              { "items": { "type": "string" }, "type": "array" },
+              { "type": "null" }
+            ],
+            "title": "Options",
+            "description": "選択肢(choiceタイプの場合)"
+          },
+          "is_active": {
+            "anyOf": [{ "type": "boolean" }, { "type": "null" }],
+            "title": "Is Active",
+            "description": "アクティブ状態"
+          }
+        },
+        "type": "object",
+        "title": "QuestionUpdateRequest",
+        "description": "定型質問更新リクエスト"
+      },
+      "SurveyAnswerListItem": {
+        "properties": {
+          "survey_id": {
+            "type": "string",
+            "title": "Survey Id",
+            "description": "サーベイID"
+          },
+          "user_cd": {
+            "type": "string",
+            "title": "User Cd",
+            "description": "ユーザーコード"
+          },
+          "str_cd": {
+            "type": "string",
+            "title": "Str Cd",
+            "description": "店舗コード"
+          },
+          "answer_count": {
+            "type": "integer",
+            "title": "Answer Count",
+            "description": "回答数"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "survey_id",
+          "user_cd",
+          "str_cd",
+          "answer_count",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "SurveyAnswerListItem",
+        "description": "サーベイ回答リスト項目"
+      },
+      "SurveyAnswerListResponse": {
+        "properties": {
+          "answers": {
+            "items": { "$ref": "#/components/schemas/SurveyAnswerListItem" },
+            "type": "array",
+            "title": "Answers",
+            "description": "サーベイリスト"
+          },
+          "total_count": {
+            "type": "integer",
+            "title": "Total Count",
+            "description": "総件数"
+          },
+          "current_page": {
+            "type": "integer",
+            "title": "Current Page",
+            "description": "現在のページ番号"
+          },
+          "total_pages": {
+            "type": "integer",
+            "title": "Total Pages",
+            "description": "総ページ数"
+          },
+          "limit": {
+            "type": "integer",
+            "title": "Limit",
+            "description": "1ページあたりの件数"
+          }
+        },
+        "type": "object",
+        "required": [
+          "answers",
+          "total_count",
+          "current_page",
+          "total_pages",
+          "limit"
+        ],
+        "title": "SurveyAnswerListResponse",
+        "description": "サーベイ回答履歴レスポンス"
+      },
+      "SurveyAnswerRequest": {
+        "properties": {
+          "survey_id": {
+            "type": "string",
+            "maxLength": 100,
+            "minLength": 1,
+            "title": "Survey Id",
+            "description": "サーベイID"
+          },
+          "answers": {
+            "items": { "$ref": "#/components/schemas/AnswerData" },
+            "type": "array",
+            "title": "Answers",
+            "description": "回答データリスト"
+          }
+        },
+        "type": "object",
+        "required": ["survey_id", "answers"],
+        "title": "SurveyAnswerRequest",
+        "description": "サーベイ回答保存リクエスト"
+      },
+      "SurveyAnswerResponse": {
+        "properties": {
+          "survey_id": {
+            "type": "string",
+            "title": "Survey Id",
+            "description": "サーベイID"
+          },
+          "user_cd": {
+            "type": "string",
+            "title": "User Cd",
+            "description": "ユーザーコード"
+          },
+          "str_cd": {
+            "type": "string",
+            "title": "Str Cd",
+            "description": "店舗コード"
+          },
+          "answers": {
+            "items": { "$ref": "#/components/schemas/AnswerData" },
+            "type": "array",
+            "title": "Answers",
+            "description": "回答データリスト"
+          },
+          "created_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Created At",
+            "description": "作成日時"
+          },
+          "updated_at": {
+            "type": "string",
+            "format": "date-time",
+            "title": "Updated At",
+            "description": "更新日時"
+          }
+        },
+        "type": "object",
+        "required": [
+          "survey_id",
+          "user_cd",
+          "str_cd",
+          "answers",
+          "created_at",
+          "updated_at"
+        ],
+        "title": "SurveyAnswerResponse",
+        "description": "サーベイ回答レスポンス"
+      },
+      "SurveyAnswerUpdateRequest": {
+        "properties": {
+          "answers": {
+            "anyOf": [
+              {
+                "items": { "$ref": "#/components/schemas/AnswerData" },
+                "type": "array"
+              },
+              { "type": "null" }
+            ],
+            "title": "Answers",
+            "description": "回答データリスト"
+          }
+        },
+        "type": "object",
+        "title": "SurveyAnswerUpdateRequest",
+        "description": "サーベイ回答更新リクエスト"
+      },
+      "SurveyOperationResponse": {
+        "properties": {
+          "message": {
+            "type": "string",
+            "title": "Message",
+            "description": "操作結果メッセージ"
+          },
+          "survey_id": {
+            "type": "string",
+            "title": "Survey Id",
+            "description": "サーベイID"
+          }
+        },
+        "type": "object",
+        "required": ["message", "survey_id"],
+        "title": "SurveyOperationResponse",
+        "description": "サーベイ操作レスポンス"
+      }
+    }
+  }
+}

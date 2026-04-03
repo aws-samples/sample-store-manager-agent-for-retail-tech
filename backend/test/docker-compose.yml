@@ -1,0 +1,34 @@
+services:
+  agent-api:
+    build:
+      context: ../agent-api
+      dockerfile: Dockerfile.dev
+    container_name: agent-api
+    ports:
+      - "8000:8000"
+    networks:
+      - app-network
+    environment:
+      - LOG_LEVEL=info
+      - AWS_ACCESS_KEY_ID=${AWS_ACCESS_KEY_ID}
+      - AWS_SECRET_ACCESS_KEY=${AWS_SECRET_ACCESS_KEY}
+      - AWS_SESSION_TOKEN=${AWS_SESSION_TOKEN}
+      - TABLE_BUCKET_ARN=${TABLE_BUCKET_ARN}
+      - NAMESPACE=${NAMESPACE}
+      - ATHENA_OUTPUT_LOCATION=${ATHENA_OUTPUT_LOCATION}
+      - ATHENA_WORKGROUP=${ATHENA_WORKGROUP}
+      - REGION=${REGION}
+      - AGENTCORE_RUNTIME_ARN=${AGENTCORE_RUNTIME_ARN}
+      - AGENTCORE_REGION=${AGENTCORE_REGION}
+      - HEARING_AGENTCORE_MEMORY_ID=${HEARING_AGENTCORE_MEMORY_ID}
+      - DAILY_SUMMARY_AGENTCORE_MEMORY_ID=${DAILY_SUMMARY_AGENTCORE_MEMORY_ID}
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/health"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 30s
+
+networks:
+  app-network:
+    driver: bridge

@@ -1,0 +1,7 @@
+column_name,data_type,description,reference,notes,constraints
+str_cd,string,店舗コード,,,N
+date,timestamp,年月日,,,N
+weather_code,int,天気コード,,,
+low_temp,string,最低気温,,,
+high_temp,string,最高気温,,,
+visitor_count,decimal,入店客数,,,

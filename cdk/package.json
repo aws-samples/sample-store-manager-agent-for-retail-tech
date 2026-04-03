@@ -1,0 +1,32 @@
+{
+  "name": "cdk",
+  "version": "0.1.0",
+  "bin": {
+    "cdk": "bin/cdk.js"
+  },
+  "scripts": {
+    "build": "tsc",
+    "watch": "tsc -w",
+    "test": "jest",
+    "cdk": "cdk"
+  },
+  "devDependencies": {
+    "@types/jest": "^30",
+    "@types/node": "^24.10.1",
+    "aws-cdk": "2.1101.0",
+    "jest": "^30",
+    "ts-jest": "^29",
+    "ts-node": "^10.9.2",
+    "typescript": "~5.9.3"
+  },
+  "dependencies": {
+    "@aws-cdk/aws-bedrock-agentcore-alpha": "^2.236.0-alpha.0",
+    "@aws-cdk/aws-s3tables-alpha": "^2.236.0-alpha.0",
+    "@aws-prototyping-sdk/pdk-nag": "^0.19.68",
+    "aws-cdk-lib": "^2.234.1",
+    "cdk-nag": "^2.37.55",
+    "constructs": "^10.0.0",
+    "deploy-time-build": "^0.4.6",
+    "dotenv": "^17.2.3"
+  }
+}
