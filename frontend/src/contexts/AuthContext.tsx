@@ -10,6 +10,7 @@ Amplify.configure({
     Cognito: {
       userPoolId: import.meta.env.VITE_APP_USER_POOL_ID,
       userPoolClientId: import.meta.env.VITE_APP_USER_POOL_CLIENT_ID,
+      identityPoolId: import.meta.env.VITE_APP_IDENTITY_POOL_ID,
     },
   },
 });

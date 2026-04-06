@@ -126,6 +126,12 @@ export class BackendStack extends cdk.Stack {
       exportName: 'StoreManager-UserPoolClientId',
     });
 
+    new cdk.CfnOutput(this, 'IdentityPoolId', {
+      value: auth.identityPool.identityPoolId,
+      description: 'Cognito Identity Pool ID (for Transcribe Streaming)',
+      exportName: 'StoreManager-IdentityPoolId',
+    });
+
     new cdk.CfnOutput(this, 'WebAclArn', {
       value: webAcl.webAcl.attrArn,
       description: 'WAF Web ACL ARN',

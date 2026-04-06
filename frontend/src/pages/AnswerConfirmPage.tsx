@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   Paper,
-  TextField,
   Button,
   List,
   ListItem,
@@ -22,11 +21,13 @@ import {
   Radio,
   CircularProgress,
   Alert,
+  TextField,
 } from '@mui/material';
 import { Save as SaveIcon, Edit as EditIcon } from '@mui/icons-material';
 import { useNavigate, useParams } from 'react-router-dom';
 import { useAppStore } from '../stores/appStore';
 import { surveyApi } from '../services/surveyApi';
+import VoiceTextField from '../components/common/VoiceTextField';
 import type { Answer } from '../types';
 
 const AnswerConfirmPage: React.FC = () => {
@@ -443,13 +444,13 @@ const AnswerConfirmPage: React.FC = () => {
           <Typography variant="h6" gutterBottom>
             補足コメント
           </Typography>
-          <TextField
+          <VoiceTextField
             fullWidth
             multiline
             rows={4}
             placeholder="追加でお伝えしたいことがあれば入力してください..."
             value={supplementComment}
-            onChange={(e) => setSupplementComment(e.target.value)}
+            onChange={(val) => setSupplementComment(val)}
             variant="outlined"
           />
         </Box>
