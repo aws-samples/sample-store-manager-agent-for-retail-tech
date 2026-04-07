@@ -68,19 +68,14 @@ def get_data_mapping():
     return [
         # Sales data files
         {
-            "table_name": "m_item_weight_group",
-            "schema": "schema/sales-data/m_item_weight_group.csv",
-            "data": "test-data/sales-data/m_item_weight_group.csv",
-        },
-        {
             "table_name": "m_item",
             "schema": "schema/sales-data/m_item.csv",
             "data": "test-data/sales-data/m_item.csv",
         },
         {
-            "table_name": "t_customer_traffic_fixed_wether",
-            "schema": "schema/sales-data/t_customer_traffic_fixed_wether.csv",
-            "data": "test-data/sales-data/t_customer_traffic_fixed_wether.csv",
+            "table_name": "t_daily_store_traffic",
+            "schema": "schema/sales-data/t_daily_store_traffic.csv",
+            "data": "test-data/sales-data/t_daily_store_traffic.csv",
         },
         {
             "table_name": "t_sales",

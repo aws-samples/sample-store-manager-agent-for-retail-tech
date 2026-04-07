@@ -244,9 +244,6 @@ unzip test-data.zip
 uv run s3_transfer.py
 ```
 
-> [!NOTE]
-> `m_item_weight_group.csv` と `t_customer_traffic_fixed_wether.csv` は test-data.zip に含まれていないため、転送時に "Data file not found" と表示されますが、動作に影響はありません。
-
 4. テーブル作成
 ```bash
 uv run create_s3_tables.py

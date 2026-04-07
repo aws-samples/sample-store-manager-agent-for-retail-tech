@@ -97,6 +97,7 @@ export class Frontend extends Construct {
       VITE_APP_REGION: region,
       VITE_APP_USER_POOL_ID: auth.userPool.userPoolId,
       VITE_APP_USER_POOL_CLIENT_ID: auth.userPoolClient.userPoolClientId,
+      VITE_APP_IDENTITY_POOL_ID: auth.identityPool.identityPoolId,
       VITE_APP_SELF_SIGN_UP_ENABLED: selfSignUpEnabled.toString(),
     };
 

@@ -1,9 +1,7 @@
 # Project
-security_review/
 *tmp/
 *test-data/
 *backup/
-*backup*
 *security_review/
 *config.json
 !**/tsconfig*.json
@@ -13,7 +11,8 @@ security_review/
 *.bedrock_agentcore.yaml
 
 # coding agent
-*.kiro/tmp/
+*.kiro/
+*.claude/
 
 # CDK Context & Staging files
 cdk.context.json
@@ -29,7 +28,6 @@ __pycache__/
 *.venv*
 *.github*
 *DS_Store*
-*.vscode/
 *.vscode/
 *.obsidian/
 
