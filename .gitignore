@@ -13,7 +13,8 @@ security_review/
 *.bedrock_agentcore.yaml
 
 # coding agent
-*.kiro/tmp/
+*.kiro/
+*.claude/
 
 # CDK Context & Staging files
 cdk.context.json
