@@ -1,9 +1,7 @@
 # Project
-security_review/
 *tmp/
 *test-data/
 *backup/
-*backup*
 *security_review/
 *config.json
 !**/tsconfig*.json
@@ -30,7 +28,6 @@ __pycache__/
 *.venv*
 *.github*
 *DS_Store*
-*.vscode/
 *.vscode/
 *.obsidian/
 
