@@ -4,7 +4,6 @@ import {
   Typography,
   Box,
   Paper,
-  TextField,
   Button,
   List,
   ListItem,
@@ -16,6 +15,7 @@ import { Send as SendIcon, SmartToy as AIIcon, Person as PersonIcon } from '@mui
 import { useNavigate } from 'react-router-dom';
 import { useAppStore } from '../stores/appStore';
 import { chatApi } from '../services/chatApi';
+import VoiceTextField from '../components/common/VoiceTextField';
 import type { ChatMessage } from '../types';
 
 const AIChatPage: React.FC = () => {
@@ -239,13 +239,13 @@ const AIChatPage: React.FC = () => {
       {/* メッセージ入力エリア */}
       <Paper elevation={1} sx={{ p: 2 }}>
         <Box sx={{ display: 'flex', gap: 1, alignItems: 'flex-end' }}>
-          <TextField
+          <VoiceTextField
             fullWidth
             multiline
             maxRows={4}
             placeholder="メッセージを入力してください..."
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={(val) => setMessage(val)}
             onKeyDown={handleKeyDown}
             disabled={isTyping}
             variant="outlined"

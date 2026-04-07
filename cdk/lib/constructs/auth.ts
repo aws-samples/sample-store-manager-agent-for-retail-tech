@@ -1,6 +1,8 @@
 import * as cdk from 'aws-cdk-lib';
 import * as cognito from 'aws-cdk-lib/aws-cognito';
+import * as iam from 'aws-cdk-lib/aws-iam';
 import * as lambda from 'aws-cdk-lib/aws-lambda';
+import { IdentityPool, UserPoolAuthenticationProvider } from 'aws-cdk-lib/aws-cognito-identitypool';
 import { Construct } from 'constructs';
 import * as path from 'path';
 
@@ -13,6 +15,7 @@ export interface AuthProps {
 export class Auth extends Construct {
   public readonly userPool: cognito.UserPool;
   public readonly userPoolClient: cognito.UserPoolClient;
+  public readonly identityPool: IdentityPool;
 
   constructor(scope: Construct, id: string, props: AuthProps) {
     super(scope, id);
@@ -104,5 +107,29 @@ export class Auth extends Construct {
       },
       generateSecret: false,
     });
+
+    // Identity Pool（音声入力機能用 - Transcribe Streaming）
+    this.identityPool = new IdentityPool(this, 'IdentityPool', {
+      identityPoolName: `${cdk.Stack.of(this).stackName}-identity-pool`,
+      authenticationProviders: {
+        userPools: [new UserPoolAuthenticationProvider({ 
+          userPool: this.userPool,
+          userPoolClient: this.userPoolClient,
+        })],
+      },
+      allowUnauthenticatedIdentities: false,
+    });
+
+    // 認証済みユーザーにTranscribe Streaming権限を付与
+    this.identityPool.authenticatedRole.addToPrincipalPolicy(
+      new iam.PolicyStatement({
+        effect: iam.Effect.ALLOW,
+        actions: [
+          'transcribe:StartStreamTranscription',
+          'transcribe:StartStreamTranscriptionWebSocket',
+        ],
+        resources: ['*'],
+      })
+    );
   }
 }
