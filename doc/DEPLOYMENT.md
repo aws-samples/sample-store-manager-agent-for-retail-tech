@@ -296,6 +296,20 @@ aws cognito-idp admin-create-user \
 > [!TIP]
 > `selfSignUpEnabled: true`の場合、ユーザーはフロントエンドから自己登録できます。
 
+### 8. adminグループへのユーザー追加
+
+管理機能（アンケート質問の編集、メッセージ管理など）を使用するには、ユーザーを `admin` グループに追加する必要があります。
+
+```bash
+aws cognito-idp admin-add-user-to-group \
+  --user-pool-id <USER_POOL_ID> \
+  --username <EMAIL> \
+  --group-name admin
+```
+
+> [!NOTE]
+> グループ追加後、アプリケーションから一度サインアウトし、再度サインインしてください。サインイン後、画面上部にadminグループ表示とadminメニューが表示されます。
+
 ## デプロイ失敗時のリカバリ手順
 
 デプロイが途中で失敗した場合、以下の手順でクリーンアップしてから再デプロイしてください。

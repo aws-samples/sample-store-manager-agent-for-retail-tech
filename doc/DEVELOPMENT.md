@@ -116,6 +116,17 @@ S3 TablesはApache Iceberg形式を使用し、トランザクション処理を
 	- `sub` は作成後変更できず、ユーザーの一意識別子として永続的に使用可能
 - **str_cd**: Cognito の `cognito:groups` を使用（例: `admin`, `store_001`）
 
+### ユーザーグループと権限
+- Cognito User Pool のグループでユーザーの権限と所属店舗を管理しています
+- `admin` グループに所属するユーザーは、管理機能（アンケート質問の編集、メッセージ管理など）にアクセスできます
+- 店舗グループ（例: `store_001`）に所属するユーザーは、該当店舗のデータにアクセスできます
+
+### 音声入力
+- Amazon Transcribe Streaming を使用したリアルタイム文字起こし機能を提供しています
+- Cognito Identity Pool 経由で認証済みユーザーに Transcribe Streaming の権限を付与しています
+- フロントエンドでは AudioWorklet を使用し、ブラウザのマイクから取得した音声をリアルタイムで Transcribe に送信します
+- 対応言語: 日本語（`ja-JP`）
+
 ### Agent
 #### System Prompt 更新
 - System Prompt を柔軟に更新できるように、**Prompt Bucket** で Agent の System Prompt を管理しています。 Local などで Prompt Text を修正いただき、Prompt Bucket にアップロードいただくことで自動的に Prompt を更新することができます。また、 S3 のバージョン機能も有効化しているため、過去の修正履歴なども保持されます。
