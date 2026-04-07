@@ -1,4 +1,4 @@
-# Store Manager Agent System
+# Store Manager Agent for Retail Tech (SMART)
 
 本プロジェクトは、店舗スタッフの日次業務を支援するAIエージェントシステムです。Amazon Bedrock AgentCoreを活用し、日次アンケート収集、AI分析、レポート生成を行い、店舗運営の改善をサポートします。
 
@@ -12,7 +12,7 @@
 
 ## AWSアーキテクチャ概要
 
-![[doc/img/architecture.png]]
+![AWSアーキテクチャ概要](doc/img/architecture.png)
 
 ### 処理詳細
 

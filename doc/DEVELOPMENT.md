@@ -8,7 +8,7 @@
 - **処理層**: Lambda（API処理） + AgentCore Runtime（AIエージェント実行）
 - **インターフェース層**: API Gateway（REST API） + CloudFront（フロントエンド配信）
 
-![[img/architecture.png]]
+![アーキテクチャ概要](img/architecture.png)
 
 ### 処理詳細フロー
 
