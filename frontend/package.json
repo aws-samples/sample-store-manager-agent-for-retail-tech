@@ -25,7 +25,7 @@
     "@mui/material-nextjs": "^7.3.7",
     "autoprefixer": "^10.4.23",
     "aws-amplify": "^6.0.0",
-    "axios": "^1.14.0",
+    "axios": "^1.15.0",
     "postcss": "^8.5.6",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",

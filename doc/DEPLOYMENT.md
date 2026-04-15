@@ -171,7 +171,7 @@ CLI の代わりにコンソールからも設定できます。
 ```json
 {
   "context": {
-    "selfSignUpEnabled": true,
+    "selfSignUpEnabled": false,
     "allowedSignUpEmailDomains": ["example.com"],
     "autoJoinUserGroups": ["admin"],
     "allowedIpV4AddressRanges": ["0.0.0.0/1", "128.0.0.0/1"],
