@@ -23,7 +23,7 @@
     "@aws-cdk/aws-bedrock-agentcore-alpha": "^2.236.0-alpha.0",
     "@aws-cdk/aws-s3tables-alpha": "^2.236.0-alpha.0",
     "@aws-prototyping-sdk/pdk-nag": "^0.19.68",
-    "aws-cdk-lib": "^2.234.1",
+    "aws-cdk-lib": "^2.250.0",
     "cdk-nag": "^2.37.55",
     "constructs": "^10.0.0",
     "deploy-time-build": "^0.4.6",
