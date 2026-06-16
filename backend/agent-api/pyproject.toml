@@ -13,7 +13,7 @@ dependencies = [
     "mangum>=0.20.0",
     "pyathena>=3.30.1",
     "pydantic>=2.12.5",
-    "pyjwt>=2.8.0",
+    "pyjwt>=2.13.0",
     "schemathesis>=4.9.5",
     "uvicorn>=0.38.0",
 ]
