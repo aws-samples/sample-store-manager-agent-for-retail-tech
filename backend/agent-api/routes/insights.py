@@ -183,6 +183,7 @@ async def save_daily_insights(
     responses={
         200: {"description": "Feedback saved successfully"},
         400: {"description": "Bad request", "model": APIError},
+        401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Insights not found", "model": APIError},
         422: {"description": "Validation error"},
     },
@@ -190,6 +191,7 @@ async def save_daily_insights(
 async def save_feedback(
     insight_id: str = Path(..., description="Insights ID"),
     request: InsightFeedbackRequest = None,
+    current_user: CurrentUser = Depends(get_current_user),
 ):
     """
     フィードバック保存
@@ -197,7 +199,9 @@ async def save_feedback(
     指定されたInsightsにフィードバックを保存します。
     """
     try:
-        insight = insights_service.save_feedback(insight_id, request.user_feedback)
+        insight = insights_service.save_feedback(
+            insight_id, request.user_feedback, current_user.str_cd
+        )
 
         return InsightUpdateResponse(message="フィードバックを保存しました")
 
@@ -278,18 +282,23 @@ async def get_insights_history(
     response_model=InsightResponse,
     responses={
         200: {"description": "Insight detail retrieved successfully"},
+        400: {"description": "Bad request", "model": APIError},
+        401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Insights not found", "model": APIError},
         422: {"description": "Validation error"},
     },
 )
-async def get_insight_detail(insight_id: str = Path(..., description="Insights ID")):
+async def get_insight_detail(
+    insight_id: str = Path(..., description="Insights ID"),
+    current_user: CurrentUser = Depends(get_current_user),
+):
     """
     Insights詳細取得
 
     指定されたIDのInsights詳細情報を取得します。
     """
     try:
-        insight = insights_service.get_insight_by_id(insight_id)
+        insight = insights_service.get_insight_by_id(insight_id, current_user.str_cd)
 
         return InsightResponse(**insight)
 

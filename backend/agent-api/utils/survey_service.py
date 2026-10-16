@@ -103,7 +103,10 @@ class SurveyService:
             raise
 
     def update_survey_answer(
-        self, survey_id: str, request: SurveyAnswerUpdateRequest
+        self,
+        survey_id: str,
+        request: SurveyAnswerUpdateRequest,
+        current_user: CurrentUser,
     ) -> Dict[str, Any]:
         """サーベイ回答更新"""
         try:
@@ -114,11 +117,13 @@ class SurveyService:
             find_query = f"""
             SELECT DISTINCT user_cd, str_cd
             FROM "{catalog_name}"."{database_name}".daily_survey_answers
-            WHERE survey_id = ?
+            WHERE survey_id = ? AND str_cd = ?
             LIMIT 1
             """
 
-            results = execute_query_and_get_results(find_query, [survey_id])
+            results = execute_query_and_get_results(
+                find_query, [survey_id, current_user.str_cd]
+            )
 
             if not results:
                 raise NotFoundException("Survey", survey_id)
@@ -130,11 +135,17 @@ class SurveyService:
                     SET 
                         answer_value = CAST(? AS varchar),
                         updated_at = current_timestamp
-                    WHERE "id" = ?
+                    WHERE "id" = ? AND survey_id = ? AND str_cd = ?
                     """
 
                     execute_query_and_get_results(
-                        update_query, [answer.answer_value, answer.question_id]
+                        update_query,
+                        [
+                            answer.answer_value,
+                            answer.question_id,
+                            survey_id,
+                            current_user.str_cd,
+                        ],
                     )
 
             return {
@@ -252,7 +263,9 @@ class SurveyService:
             logger.error(f"Error in get_survey_answers: {e}")
             raise
 
-    def get_survey_answer(self, survey_id: str) -> SurveyAnswerResponse:
+    def get_survey_answer(
+        self, survey_id: str, current_user: CurrentUser
+    ) -> SurveyAnswerResponse:
         """サーベイ回答詳細取得"""
         try:
             catalog_info = get_catalog_info()
@@ -267,11 +280,12 @@ class SurveyService:
                 date_format(a.created_at AT TIME ZONE 'Asia/Tokyo', '%Y-%m-%d %H:%i:%s') as created_at,
                 date_format(a.updated_at AT TIME ZONE 'Asia/Tokyo', '%Y-%m-%d %H:%i:%s') as updated_at
             FROM "{catalog_name}"."{database_name}".daily_survey_answers a
-            WHERE a.survey_id = ?
+            WHERE a.survey_id = ? AND a.str_cd = ?
             LIMIT 1
             """
 
-            summary_results = execute_query_and_get_results(summary_query, [survey_id])
+            scope_params = [survey_id, current_user.str_cd]
+            summary_results = execute_query_and_get_results(summary_query, scope_params)
 
             if not summary_results:
                 raise NotFoundException("Survey", survey_id)
@@ -286,11 +300,11 @@ class SurveyService:
                 answer_value,
                 options
             FROM "{catalog_name}"."{database_name}".daily_survey_answers
-            WHERE survey_id = ?
+            WHERE survey_id = ? AND str_cd = ?
             ORDER BY created_at
             """
 
-            answers_results = execute_query_and_get_results(answers_query, [survey_id])
+            answers_results = execute_query_and_get_results(answers_query, scope_params)
 
             answers = []
             for answer_row in answers_results:

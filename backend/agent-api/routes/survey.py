@@ -47,13 +47,18 @@ async def save_survey_answer(
     responses={
         200: {"description": "Survey answer updated successfully"},
         400: {"description": "Bad request", "model": APIError},
+        401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Survey not found", "model": APIError},
         422: {"description": "Validation error"},
     },
 )
-async def update_survey_answer(survey_id: str, request: SurveyAnswerUpdateRequest):
+async def update_survey_answer(
+    survey_id: str,
+    request: SurveyAnswerUpdateRequest,
+    current_user: CurrentUser = Depends(get_current_user)
+):
     """サーベイ回答更新"""
-    result = survey_service.update_survey_answer(survey_id, request)
+    result = survey_service.update_survey_answer(survey_id, request, current_user)
     return SurveyOperationResponse(**result)
 
 
@@ -92,10 +97,15 @@ async def get_survey_answers(
     response_model=SurveyAnswerResponse,
     responses={
         200: {"description": "Survey answer retrieved successfully"},
+        400: {"description": "Bad request", "model": APIError},
+        401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Survey not found", "model": APIError},
         422: {"description": "Validation error"},
     },
 )
-async def get_survey_answer(survey_id: str):
+async def get_survey_answer(
+    survey_id: str,
+    current_user: CurrentUser = Depends(get_current_user)
+):
     """サーベイ回答詳細取得"""
-    return survey_service.get_survey_answer(survey_id)
+    return survey_service.get_survey_answer(survey_id, current_user)

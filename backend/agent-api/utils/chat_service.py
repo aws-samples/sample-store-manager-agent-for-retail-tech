@@ -11,7 +11,11 @@ import time
 from datetime import datetime, timezone
 from typing import Dict, Any, Optional, List
 from config import config
-from utils.exceptions import ValidationException, InternalServerException
+from utils.exceptions import (
+    ValidationException,
+    InternalServerException,
+    NotFoundException,
+)
 from utils.agentcore_client import invoke_agentcore_runtime, get_memory_client
 from utils.logger import get_logger
 from utils.auth import CurrentUser
@@ -95,6 +99,21 @@ def _get_table_path() -> str:
     return f'"{catalog_name}"."{namespace}"."ai_chat_history"'
 
 
+def _get_survey_answers_table_path() -> str:
+    """daily_survey_answers テーブルの完全修飾名を返す。
+
+    Returns:
+        Athena クエリで使う daily_survey_answers テーブルのパス
+    """
+    table_bucket_arn = config.TABLE_BUCKET_ARN
+    namespace = config.NAMESPACE
+
+    table_bucket_name = table_bucket_arn.split("/")[-1]
+    catalog_name = f"s3tablescatalog/{table_bucket_name}"
+
+    return f'"{catalog_name}"."{namespace}"."daily_survey_answers"'
+
+
 class ChatService:
     """AIチャット機能サービスクラス"""
 
@@ -137,6 +156,9 @@ class ChatService:
     def save_chat_session(self, request: ChatSessionSaveRequest, current_user: CurrentUser) -> Dict[str, Any]:
         """チャットセッション保存"""
         self._validate_session_request(request)
+        self._ensure_survey_not_owned_by_other_store(
+            request.survey_id, current_user.str_cd
+        )
 
         user_cd = current_user.user_cd
 
@@ -190,8 +212,38 @@ class ChatService:
             logger.error(f"Error saving chat session to S3 Tables: {e}")
             raise InternalServerException(f"Failed to save chat session: {str(e)}")
 
+    def _ensure_survey_not_owned_by_other_store(
+        self, survey_id: str, str_cd: str
+    ) -> None:
+        """survey_id が他店舗の回答に属していないことを確認する。
+
+        保存時点では回答がまだ作成されていないことがあるため、
+        他店舗の回答が存在する場合のみ拒否する。
+
+        Args:
+            survey_id: セッションを紐づけるサーベイID
+            str_cd: リクエストユーザーの店舗コード
+
+        Raises:
+            NotFoundException: survey_id が他店舗の回答に属する場合
+        """
+        query = f"""
+            SELECT 1
+            FROM {_get_survey_answers_table_path()}
+            WHERE survey_id = ? AND str_cd <> ?
+            LIMIT 1
+        """
+
+        other_store_rows = _execute_athena_query(query, [survey_id, str_cd])
+
+        if other_store_rows:
+            logger.warning(
+                f"Rejected chat session save for survey owned by another store: {survey_id}"
+            )
+            raise NotFoundException("Survey", survey_id)
+
     def get_chat_session_by_survey(
-        self, survey_id: str
+        self, survey_id: str, current_user: CurrentUser
     ) -> Optional[ChatSessionResponse]:
         try:
             table_bucket_arn = os.environ.get("TABLE_BUCKET_ARN")
@@ -216,12 +268,12 @@ class ChatService:
                 FROM "{catalog_name}"."{namespace}"."ai_chat_history" h
                 INNER JOIN "{catalog_name}"."{namespace}"."daily_survey_answers" a
                     ON h.survey_id = a.survey_id
-                WHERE h.survey_id = ?
+                WHERE h.survey_id = ? AND a.str_cd = ?
                 ORDER BY h.created_at DESC
                 LIMIT 1
             """
 
-            results = _execute_athena_query(query, [survey_id])
+            results = _execute_athena_query(query, [survey_id, current_user.str_cd])
 
             if not results:
                 logger.info(f"Session not found for survey: {survey_id}")

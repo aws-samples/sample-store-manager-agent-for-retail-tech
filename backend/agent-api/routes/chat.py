@@ -43,6 +43,7 @@ async def send_chat_message(
         200: {"description": "Chat session saved successfully"},
         400: {"description": "Bad request", "model": APIError},
         401: {"description": "Unauthorized", "model": APIError},
+        404: {"description": "Survey not found", "model": APIError},
         422: {"description": "Validation error"},
     },
 )
@@ -61,13 +62,17 @@ async def save_chat_session(
     responses={
         200: {"description": "Chat session retrieved successfully"},
         400: {"description": "Bad request", "model": APIError},
+        401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Chat session not found", "model": APIError},
         422: {"description": "Validation error"},
     },
 )
-async def get_chat_session_by_survey(survey_id: str):
+async def get_chat_session_by_survey(
+    survey_id: str,
+    current_user: CurrentUser = Depends(get_current_user)
+):
     """サーベイIDからチャットセッション取得"""
-    session = chat_service.get_chat_session_by_survey(survey_id)
+    session = chat_service.get_chat_session_by_survey(survey_id, current_user)
 
     if not session:
         raise HTTPException(status_code=404, detail="Chat session not found")
