@@ -667,6 +667,14 @@
               }
             }
           },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
           "401": {
             "description": "Unauthorized",
             "content": {
@@ -1076,6 +1084,14 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/InsightResponse" }
+              }
+            }
+          },
+          "400": {
+            "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
               }
             }
           },

@@ -282,6 +282,7 @@ async def get_insights_history(
     response_model=InsightResponse,
     responses={
         200: {"description": "Insight detail retrieved successfully"},
+        400: {"description": "Bad request", "model": APIError},
         401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Insights not found", "model": APIError},
         422: {"description": "Validation error"},

@@ -97,6 +97,7 @@ async def get_survey_answers(
     response_model=SurveyAnswerResponse,
     responses={
         200: {"description": "Survey answer retrieved successfully"},
+        400: {"description": "Bad request", "model": APIError},
         401: {"description": "Unauthorized", "model": APIError},
         404: {"description": "Survey not found", "model": APIError},
         422: {"description": "Validation error"},
