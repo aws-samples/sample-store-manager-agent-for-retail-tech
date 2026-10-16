@@ -361,7 +361,7 @@ class InsightsService:
             user_cd = current_user.user_cd
             str_cd = current_user.str_cd
 
-            existing_insight = self.get_insight_by_id(insight_id)
+            existing_insight = self.get_insight_by_id(insight_id, str_cd)
 
             agentcore_memory_id = config.DAILY_SUMMARY_AGENTCORE_MEMORY_ID
 
@@ -373,14 +373,13 @@ class InsightsService:
             UPDATE "{catalog_name}"."{database_name}".daily_survey_summary
             SET
                 user_cd = %(user_cd)s,
-                str_cd = %(str_cd)s,
                 status = 'completed',
                 report_text = %(report_text)s,
                 agentcore_memory_id = %(agentcore_memory_id)s,
                 session_id = %(session_id)s,
                 actor_id = %(actor_id)s,
                 updated_at = current_timestamp
-            WHERE id = %(insight_id)s
+            WHERE id = %(insight_id)s AND str_cd = %(str_cd)s
             """
 
             params = {
@@ -395,7 +394,7 @@ class InsightsService:
 
             execute_query_with_pyathena(query, params)
 
-            return self.get_insight_by_id(insight_id)
+            return self.get_insight_by_id(insight_id, str_cd)
 
         except NotFoundException:
             raise
@@ -406,10 +405,12 @@ class InsightsService:
             logger.error(f"Error in save_daily_insights: {e}")
             raise
 
-    def save_feedback(self, insight_id: str, user_feedback: str) -> Dict[str, Any]:
+    def save_feedback(
+        self, insight_id: str, user_feedback: str, str_cd: str
+    ) -> Dict[str, Any]:
         """フィードバック保存"""
         try:
-            existing_insight = self.get_insight_by_id(insight_id)
+            existing_insight = self.get_insight_by_id(insight_id, str_cd)
 
             catalog_info = get_catalog_info()
             catalog_name = catalog_info["catalog_name"]
@@ -420,12 +421,12 @@ class InsightsService:
             SET 
                 user_feedback = ?,
                 updated_at = current_timestamp
-            WHERE id = ?
+            WHERE id = ? AND str_cd = ?
             """
 
-            execute_query_and_get_results(query, [user_feedback, insight_id])
+            execute_query_and_get_results(query, [user_feedback, insight_id, str_cd])
 
-            return self.get_insight_by_id(insight_id)
+            return self.get_insight_by_id(insight_id, str_cd)
 
         except NotFoundException:
             raise
@@ -518,7 +519,7 @@ class InsightsService:
             logger.error(f"Error in get_insights_history: {e}")
             raise
 
-    def get_insight_by_id(self, insight_id: str) -> Dict[str, Any]:
+    def get_insight_by_id(self, insight_id: str, str_cd: str) -> Dict[str, Any]:
         """Insights詳細取得"""
         try:
             catalog_info = get_catalog_info()
@@ -539,10 +540,10 @@ class InsightsService:
                 date_format(updated_at AT TIME ZONE 'Asia/Tokyo', '%Y-%m-%d %H:%i:%s') as updated_at,
                 user_feedback
             FROM "{catalog_name}"."{database_name}".daily_survey_summary
-            WHERE id = ?
+            WHERE id = ? AND str_cd = ?
             """
 
-            results = execute_query_and_get_results(query, [insight_id])
+            results = execute_query_and_get_results(query, [insight_id, str_cd])
 
             if not results:
                 raise NotFoundException("Insight", insight_id)
