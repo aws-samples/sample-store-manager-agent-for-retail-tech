@@ -581,6 +581,12 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string", "title": "Survey Id" }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
           }
         ],
         "requestBody": {
@@ -612,6 +618,14 @@
               }
             }
           },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
           "404": {
             "description": "Survey not found",
             "content": {
@@ -634,6 +648,12 @@
             "in": "path",
             "required": true,
             "schema": { "type": "string", "title": "Survey Id" }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
           }
         ],
         "responses": {
@@ -644,6 +664,14 @@
                 "schema": {
                   "$ref": "#/components/schemas/SurveyAnswerResponse"
                 }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
               }
             }
           },
@@ -761,6 +789,14 @@
               }
             }
           },
+          "404": {
+            "description": "Survey not found",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
           "422": { "description": "Validation error" }
         }
       }
@@ -777,6 +813,12 @@
             "in": "query",
             "required": true,
             "schema": { "type": "string", "title": "Survey Id" }
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
           }
         ],
         "responses": {
@@ -790,6 +832,14 @@
           },
           "400": {
             "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/APIError" }
@@ -1012,6 +1062,12 @@
               "title": "Insight Id"
             },
             "description": "Insights ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
           }
         ],
         "responses": {
@@ -1020,6 +1076,14 @@
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/InsightResponse" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
               }
             }
           },
@@ -1052,6 +1116,12 @@
               "title": "Insight Id"
             },
             "description": "Insights ID"
+          },
+          {
+            "name": "authorization",
+            "in": "header",
+            "required": true,
+            "schema": { "type": "string", "title": "Authorization" }
           }
         ],
         "requestBody": {
@@ -1076,6 +1146,14 @@
           },
           "400": {
             "description": "Bad request",
+            "content": {
+              "application/json": {
+                "schema": { "$ref": "#/components/schemas/APIError" }
+              }
+            }
+          },
+          "401": {
+            "description": "Unauthorized",
             "content": {
               "application/json": {
                 "schema": { "$ref": "#/components/schemas/APIError" }
